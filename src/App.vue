@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <h1>23.06.2025</h1>
+  <h2>23.06.2025</h2>
 </template>
 
 <style scoped></style>

@@ -1,7 +1,11 @@
-<script setup></script>
+<script setup>
+import Button from "./components/Button.vue";
+</script>
 
 <template>
-  <h1>23.06.2025</h1>
+  <main class="main">
+    <Button>Начать игру</Button>
+  </main>
 </template>
 
 <style scoped></style>

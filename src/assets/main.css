@@ -1,0 +1,25 @@
+:root {
+  --color-primary: #000000;
+  --color-primary-inverted: #ffffff;
+  --color-bg: #f0f4f8;
+  --color-outlined: #cce8ff;
+  --color-btn: #008bfe;
+  --color-btn-hover: #006fcb;
+  --color-btn-light: #cce8ff;
+  --color-success: #09bb00;
+  --color-fail: #d00303;
+  --font: "Roboto", sans-serif;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--color-primary);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --webkit-font-smoothing: antialiased;
+  --moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg);
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}

@@ -1,8 +1,9 @@
 <script setup>
+import { ref } from "vue";
 import IconLike from "../icons/IconLike.vue";
 
 const { score } = defineProps({
-  score: String,
+  score: Number,
 });
 </script>
 

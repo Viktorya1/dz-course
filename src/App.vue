@@ -1,8 +1,11 @@
 <script setup>
+import { ref } from "vue";
+
 import Button from "./components/Button.vue";
 import Score from "./components/Score.vue";
 import Card from "./components/Card.vue";
-const score = 100;
+
+let score = ref(100);
 
 function getSelect(status) {
   console.log(status);

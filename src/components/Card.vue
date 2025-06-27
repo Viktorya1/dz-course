@@ -1,23 +1,37 @@
 <script setup>
+import { ref } from "vue";
 import IconFail from "../icons/IconFail.vue";
 import IconSuccess from "../icons/IconSuccess.vue";
 
 const emit = defineEmits(["reverseCard", "selectCard"]);
 
+let card = ref({
+  word: "EnglishWord",
+  translation: "Ещё нет перевода",
+  state: "closed",
+  status: "pending",
+});
+
 function reverse() {
   emit("reverseCard");
+  card.value.state = "opened";
+  card.value.translation = "Уже есть перевод";
 }
 
 function select() {
   emit("selectCard", "Success");
+  card.value.status = "success";
 }
 </script>
 
 <template>
+  Перевод: {{ card.translation }} <br />
+  Состояние: {{ card.state }} <br />
+  Статус: {{ card.status }}
   <div class="card">
     <div class="card-wrapper">
       <span class="card-number">01</span>
-      <p class="card-word">unadmitted</p>
+      <p class="card-word">{{ card.word }}</p>
       <button @click="reverse()" class="card-btn">Перевернуть</button>
     </div>
   </div>
@@ -25,7 +39,7 @@ function select() {
   <div class="card">
     <div class="card-wrapper">
       <span class="card-number">01</span>
-      <p class="card-word">Перевод</p>
+      <p class="card-word">{{ card.translation }}</p>
       <div class="btn-reverse">
         <button class="icon-btn"><IconFail /></button>
         <button @click="select()" class="icon-btn"><IconSuccess /></button>

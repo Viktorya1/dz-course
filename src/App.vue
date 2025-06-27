@@ -7,20 +7,31 @@ import Card from "./components/Card.vue";
 
 let score = ref(100);
 
-let card = ref({
-  word: "EnglishWord",
-  translation: "Ещё нет перевода",
-  state: "closed",
-  cardStatus: "pending",
-});
+let cards = ref([
+  {
+    word: "Home",
+    translation: "Дом",
+    state: "closed",
+    cardStatus: "pending",
+  },
+  {
+    word: "Car",
+    translation: "Машина",
+    state: "closed",
+    cardStatus: "pending",
+  },
+]);
+
+let currentCardIndex = ref(0);
+let currentCard = ref(cards.value[currentCardIndex.value]);
 
 function handleReverseCard() {
-  card.value.state = "opened";
-  card.value.translation = "Уже есть перевод";
+  currentCard.value.state = "opened";
+  currentCard.value.translation = "Уже есть перевод";
 }
 
 function handleSelectCard() {
-  card.value.cardStatus = "success";
+  currentCard.value.cardStatus = "success";
 }
 </script>
 
@@ -33,7 +44,7 @@ function handleSelectCard() {
     <Button class="start-btn">Начать игру</Button>
   </main>
   <Card
-    v-bind="card"
+    v-bind="currentCard"
     @reverse-card="handleReverseCard"
     @select-card="handleSelectCard"
   />

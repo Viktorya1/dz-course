@@ -17,7 +17,6 @@ function reverse() {
 
 function select() {
   emit("selectCard");
-  cardStatus = "success";
 }
 </script>
 

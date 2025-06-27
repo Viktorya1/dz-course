@@ -7,6 +7,13 @@ import Card from "./components/Card.vue";
 
 let score = ref(100);
 
+let card = ref({
+  word: "EnglishWord",
+  translation: "Ещё нет перевода",
+  state: "closed",
+  status: "pending",
+});
+
 function getSelect(status) {
   console.log(status);
 }
@@ -20,7 +27,7 @@ function getSelect(status) {
   <main class="main">
     <Button class="start-btn">Начать игру</Button>
   </main>
-  <Card @reverse-card="getSelect" @select-card="getSelect" />
+  <Card v-bind="card" @reverse-card="getSelect" @select-card="getSelect" />
 </template>
 
 <style scoped>

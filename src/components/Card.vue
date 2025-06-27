@@ -6,27 +6,25 @@ const props = defineProps({
   word: String,
   translation: String,
   state: String,
-  status: String,
+  cardStatus: String,
 });
 
 const emit = defineEmits(["reverseCard", "selectCard"]);
 
 function reverse() {
   emit("reverseCard");
-  state = "opened";
-  translation = "Уже есть перевод";
 }
 
 function select() {
-  emit("selectCard", "Success");
-  status = "success";
+  emit("selectCard");
+  cardStatus = "success";
 }
 </script>
 
 <template>
   Перевод: {{ translation }} <br />
   Состояние: {{ state }} <br />
-  Статус: {{ status }}
+  Статус: {{ cardStatus }}
   <div class="card">
     <div class="card-wrapper">
       <span class="card-number">01</span>

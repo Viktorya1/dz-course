@@ -11,11 +11,16 @@ let card = ref({
   word: "EnglishWord",
   translation: "Ещё нет перевода",
   state: "closed",
-  status: "pending",
+  cardStatus: "pending",
 });
 
-function getSelect(status) {
-  console.log(status);
+function handleReverseCard() {
+  card.value.state = "opened";
+  card.value.translation = "Уже есть перевод";
+}
+
+function handleSelectCard() {
+  card.value.cardStatus = "success";
 }
 </script>
 
@@ -27,7 +32,11 @@ function getSelect(status) {
   <main class="main">
     <Button class="start-btn">Начать игру</Button>
   </main>
-  <Card v-bind="card" @reverse-card="getSelect" @select-card="getSelect" />
+  <Card
+    v-bind="card"
+    @reverse-card="handleReverseCard"
+    @select-card="handleSelectCard"
+  />
 </template>
 
 <style scoped>

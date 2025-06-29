@@ -22,16 +22,12 @@ let cards = ref([
   },
 ]);
 
-let currentCardIndex = ref(0);
-let currentCard = ref(cards.value[currentCardIndex.value]);
-
-function handleReverseCard() {
-  currentCard.value.state = "opened";
-  currentCard.value.translation = "Уже есть перевод";
+function handleReverseCard(index) {
+  cards.value[index].state = "opened";
 }
 
-function handleSelectCard() {
-  currentCard.value.cardStatus = "success";
+function handleSelectCard(index) {
+  cards.value[index].cardStatus = "success";
 }
 </script>
 
@@ -46,9 +42,9 @@ function handleSelectCard() {
   <Card
     v-for="(card, index) in cards"
     :key="card.word"
-    v-bind="currentCard"
-    @reverse-card="handleReverseCard"
-    @select-card="handleSelectCard"
+    v-bind="card"
+    @reverse-card="() => handleReverseCard(index)"
+    @select-card="() => handleSelectCard(index)"
   />
 </template>
 

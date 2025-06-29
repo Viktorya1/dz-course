@@ -44,6 +44,8 @@ function handleSelectCard() {
     <Button class="start-btn">Начать игру</Button>
   </main>
   <Card
+    v-for="(card, index) in cards"
+    :key="card.word"
     v-bind="currentCard"
     @reverse-card="handleReverseCard"
     @select-card="handleSelectCard"

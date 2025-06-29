@@ -21,10 +21,7 @@ function select() {
 </script>
 
 <template>
-  Перевод: {{ translation }} <br />
-  Состояние: {{ state }} <br />
-  Статус: {{ cardStatus }}
-  <div class="card">
+  <div class="card" v-if="state === 'closed'">
     <div class="card-wrapper">
       <span class="card-number">01</span>
       <p class="card-word">{{ word }}</p>
@@ -32,7 +29,7 @@ function select() {
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" v-else-if="state === 'opened' && cardStatus === 'pending'">
     <div class="card-wrapper">
       <span class="card-number">01</span>
       <p class="card-word">{{ translation }}</p>
@@ -43,11 +40,11 @@ function select() {
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" v-else>
     <div class="card-wrapper">
       <span class="card-number">01</span>
       <span><IconSuccess class="status-icon" /></span>
-      <p class="card-word">Перевод</p>
+      <p class="card-word">{{ translation }}</p>
       <button class="card-btn">Завершено</button>
     </div>
   </div>

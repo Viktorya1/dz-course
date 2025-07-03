@@ -11,9 +11,16 @@ let score = ref(100);
 let game = ref(false);
 
 let cards = ref();
+let error = ref();
 
 async function getWords() {
   const res = await fetch(`${API_ENDPOINT}`);
+  if (res.status != 200) {
+    error.value = await res.json();
+    data.value = null;
+    return;
+  }
+  error.value = null;
   const data = await res.json();
   cards.value = data.map((item) => ({
     ...item,

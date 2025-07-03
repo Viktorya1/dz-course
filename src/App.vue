@@ -5,59 +5,75 @@ import Button from "./components/Button.vue";
 import Score from "./components/Score.vue";
 import Card from "./components/Card.vue";
 
-let score = ref(100);
+const API_ENDPOINT = "http://localhost:8080/api/random-words";
 
-let cards = ref([
-  {
-    word: "Home",
-    translation: "Дом",
+let score = ref(100);
+let game = ref(false);
+
+let cards = ref();
+
+async function getWords() {
+  const res = await fetch(`${API_ENDPOINT}`);
+  const data = await res.json();
+  cards.value = data.map((item) => ({
+    ...item,
     state: "closed",
     cardStatus: "pending",
-  },
-  {
-    word: "Car",
-    translation: "Машина",
-    state: "closed",
-    cardStatus: "pending",
-  },
-]);
+  }));
+}
+
+function startGame() {
+  game.value = true;
+  getWords();
+}
+
+console.log(cards);
 
 function handleReverseCard(index) {
   cards.value[index].state = "opened";
 }
 
-function handleSelectCard(index) {
-  cards.value[index].cardStatus = "success";
+function handleSelectCard(index, value) {
+  cards.value[index].cardStatus = value;
 }
 </script>
 
 <template>
-  <header class="header">
-    <p class="header-text">Запомни слово</p>
-    <Score :score="score" />
-  </header>
-  <main class="main">
-    <Button class="start-btn">Начать игру</Button>
-  </main>
-  <Card
-    v-for="(card, index) in cards"
-    :key="card.word"
-    v-bind="card"
-    @reverse-card="() => handleReverseCard(index)"
-    @select-card="() => handleSelectCard(index)"
-  />
+  <div class="container">
+    <header class="header">
+      <p class="header-text">Запомни слово</p>
+      <Score :score="score" />
+    </header>
+    <main class="main">
+      <Button v-if="game === false" class="start-btn" @click="startGame"
+        >Начать игру</Button
+      >
+    </main>
+    <div v-if="game === true" class="cards">
+      <Card
+        v-for="(card, index) in cards"
+        :key="card.word"
+        v-bind="card"
+        @reverse-card="() => handleReverseCard(index)"
+        @select-card="(value) => handleSelectCard(index, value)"
+      />
+    </div>
+  </div>
 </template>
 
 <style scoped>
+.container {
+  padding: 10px 100px;
+}
+
 .main {
   text-align: center;
-  margin-top: 30vh;
+  margin-top: 10vh;
 }
 
 .header {
   display: flex;
-  justify-content: space-around;
-  margin-top: 50px;
+  justify-content: space-between;
 }
 
 .header-text {
@@ -65,5 +81,13 @@ function handleSelectCard(index) {
   font-size: 16px;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 auto;
 }
 </style>

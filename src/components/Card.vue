@@ -15,8 +15,8 @@ function reverse() {
   emit("reverseCard");
 }
 
-function select() {
-  emit("selectCard");
+function select(value) {
+  emit("selectCard", value);
 }
 </script>
 
@@ -34,8 +34,10 @@ function select() {
       <span class="card-number">01</span>
       <p class="card-word">{{ translation }}</p>
       <div class="btn-reverse">
-        <button class="icon-btn"><IconFail /></button>
-        <button @click="select()" class="icon-btn"><IconSuccess /></button>
+        <button @click="select('fail')" class="icon-btn"><IconFail /></button>
+        <button @click="select('success')" class="icon-btn">
+          <IconSuccess />
+        </button>
       </div>
     </div>
   </div>
@@ -43,7 +45,12 @@ function select() {
   <div class="card" v-else>
     <div class="card-wrapper">
       <span class="card-number">01</span>
-      <span><IconSuccess class="status-icon" /></span>
+      <span v-if="cardStatus === 'success'"
+        ><IconSuccess class="status-icon"
+      /></span>
+      <span v-else-if="cardStatus === 'fail'"
+        ><IconFail class="status-icon"
+      /></span>
       <p class="card-word">{{ translation }}</p>
       <button class="card-btn">Завершено</button>
     </div>

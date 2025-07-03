@@ -12,8 +12,11 @@ let game = ref(false);
 
 let cards = ref();
 let error = ref();
+let data = ref();
+let isLoading = ref(false);
 
 async function getWords() {
+  isLoading.value = true;
   const res = await fetch(`${API_ENDPOINT}`);
   if (res.status != 200) {
     error.value = await res.json();
@@ -21,8 +24,9 @@ async function getWords() {
     return;
   }
   error.value = null;
-  const data = await res.json();
-  cards.value = data.map((item) => ({
+  isLoading.value = false;
+  data.value = await res.json();
+  cards.value = data.value.map((item) => ({
     ...item,
     state: "closed",
     cardStatus: "pending",
@@ -55,6 +59,7 @@ function handleSelectCard(index, value) {
       <Button v-if="game === false" class="start-btn" @click="startGame"
         >Начать игру</Button
       >
+      <div v-if="isLoading && game">Загружаем карточки...</div>
     </main>
     <div v-if="game === true" class="cards">
       <Card

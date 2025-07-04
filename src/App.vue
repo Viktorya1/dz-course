@@ -25,7 +25,6 @@ async function getWords() {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
     error.value = null;
-    isLoading.value = false;
     data.value = await res.json();
     cards.value = data.value.map((item) => ({
       ...item,
@@ -35,6 +34,7 @@ async function getWords() {
   } catch (err) {
     error.value = err.message || "Произошла ошибка при загрузке данных";
     cards.value = [];
+    isLoading.value = false;
   }
 }
 

@@ -16,21 +16,26 @@ let data = ref();
 let isLoading = ref(false);
 
 async function getWords() {
-  isLoading.value = true;
-  const res = await fetch(`${API_ENDPOINT}`);
-  if (res.status != 200) {
-    error.value = await res.json();
-    data.value = null;
-    return;
+  try {
+    isLoading.value = true;
+    const res = await fetch(`${API_ENDPOINT}`);
+    if (res.status != 200) {
+      error.value = await res.json();
+      data.value = null;
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    error.value = null;
+    isLoading.value = false;
+    data.value = await res.json();
+    cards.value = data.value.map((item) => ({
+      ...item,
+      state: "closed",
+      cardStatus: "pending",
+    }));
+  } catch (err) {
+    error.value = err.message || "Произошла ошибка при загрузке данных";
+    cards.value = [];
   }
-  error.value = null;
-  isLoading.value = false;
-  data.value = await res.json();
-  cards.value = data.value.map((item) => ({
-    ...item,
-    state: "closed",
-    cardStatus: "pending",
-  }));
 }
 
 function startGame() {
@@ -60,8 +65,9 @@ function handleSelectCard(index, value) {
         >Начать игру</Button
       >
       <div v-if="isLoading && game">Загружаем карточки...</div>
+      <div v-if="error" class="error-message">{{ error }}</div>
     </main>
-    <div v-if="game === true" class="cards">
+    <div v-if="game === true && !isLoading && !error" class="cards">
       <Card
         v-for="(card, index) in cards"
         :key="card.word"

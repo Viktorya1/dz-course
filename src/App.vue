@@ -19,13 +19,14 @@ async function getWords() {
   try {
     isLoading.value = true;
     const res = await fetch(`${API_ENDPOINT}`);
-    if (res.status != 200) {
+    if (!res.ok) {
       error.value = await res.json();
       data.value = null;
       throw new Error(`HTTP error! status: ${res.status}`);
     }
     error.value = null;
     data.value = await res.json();
+    isLoading.value = false;
     cards.value = data.value.map((item) => ({
       ...item,
       state: "closed",
@@ -42,8 +43,6 @@ function startGame() {
   game.value = true;
   getWords();
 }
-
-console.log(cards);
 
 function handleReverseCard(index) {
   cards.value[index].state = "opened";

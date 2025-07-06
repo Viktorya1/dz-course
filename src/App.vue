@@ -50,6 +50,11 @@ function handleReverseCard(index) {
 
 function handleSelectCard(index, value) {
   cards.value[index].cardStatus = value;
+  if (cards.value[index].cardStatus == "success") {
+    score.value += 10;
+  } else {
+    score.value -= 4;
+  }
 }
 </script>
 
@@ -74,6 +79,9 @@ function handleSelectCard(index, value) {
         @reverse-card="() => handleReverseCard(index)"
         @select-card="(value) => handleSelectCard(index, value)"
       />
+    </div>
+    <div v-if="game === true && !isLoading && !error" class="again-btn">
+      <Button @click="startGame">Начать заново</Button>
     </div>
   </div>
 </template>
@@ -106,5 +114,10 @@ function handleSelectCard(index, value) {
   justify-content: center;
   flex-wrap: wrap;
   margin: 0 auto;
+}
+
+.again-btn {
+  text-align: center;
+  margin-top: 20px;
 }
 </style>

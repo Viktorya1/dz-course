@@ -67,6 +67,10 @@ function select(value) {
   padding: 28px 19px;
 }
 
+.card:hover {
+  box-shadow: 10px 10px 10px 0px rgba(0, 0, 0, 0.05);
+}
+
 .card-wrapper {
   border: 1px solid var(--color-outlined);
   border-radius: 12px;
